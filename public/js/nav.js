@@ -60,3 +60,23 @@ window.onload = () => {
         })
     }
 }
+
+// nav cart count
+
+const updateNavCartCounter = () => {
+    let cartCounter = document.querySelector('.cart-item-count');
+
+    let cartItem = JSON.parse(localStorage.getItem('cart'));
+
+    if(cartItem == null){
+        cartCounter.innerHTML = '00';
+    } else{
+        if(cartItem.length > 9){
+            cartCounter.innerHTML = '9+';
+        } else if(cartItem.length <= 9){
+            cartCounter.innerHTML = `0${cartItem.length}`
+        }
+    }
+}
+
+updateNavCartCounter();
