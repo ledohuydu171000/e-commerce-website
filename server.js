@@ -246,6 +246,72 @@ app.post('/delete-product', (req, res) => {
     })
 })
 
+app.get('/products/:id', (req, res) => {
+    res.sendFile("product.html", { root : "public" })
+})
+
+app.get('/search/:key', (req, res) => {
+    res.sendFile("search.html", { root : "public" })
+})
+
+// review routes
+app.post('/add-review', (req, res) => {
+    let { headline, review, rate, email, product } = req.body;
+    
+    // form validations
+    if(!headline.length || !review.length || rate == 0 || email == null || !product){
+        return res.json({'alert':'Fill all the inputs'});
+    }
+
+    // storing in Firestore
+    let reviews = collection(db, "reviews");
+    let docName = `review-${email}-${product}`;
+
+    setDoc(doc(reviews, docName), req.body)
+    .then(data => {
+        return res.json('review')
+    }).catch(err => {
+        console.log(err)
+        res.json({'alert': 'some err occured'})
+    });
+})
+
+app.post('/get-reviews', (req, res) => {
+    let { product, email } = req.body;
+
+    let reviews = collection(db, "reviews");
+
+    getDocs(query(reviews, where("product", "==", product)), limit(4))
+    .then(review => {
+        let reviewArr = [];
+
+        if(review.empty){
+            return res.json(reviewArr);
+        }
+
+        let userEmail = false;
+
+        review.forEach((item, i) => {
+            let reivewEmail = item.data().email;
+            if(reivewEmail == email){
+                userEmail = true;
+            }
+            reviewArr.push(item.data())
+        })
+
+        if(!userEmail){
+            getDoc(doc(reviews, `review-${email}-${product}`))
+            .then(data => reviewArr.push(data.data()))
+        }
+
+        return res.json(reviewArr);
+    })
+})
+
+app.get('/cart', (req, res) => {
+    res.sendFile("cart.html", { root : "public" })
+})
+
 //404 route
 app.get('/404', (req, res) =>{
     res.sendFile(path.join(staticPath, "404.html"));
