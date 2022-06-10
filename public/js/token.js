@@ -1,19 +1,18 @@
-let char = `123abcde.fmnopqlABCDE@FJHIJKLMNOPQRSTUVWXYZ456789stuvwxyz0!#$%&ijkrgh'*+-/=?^_${'`'}{|}~`;
+let char = `123abcde.fmnopqlABCDE@FJKLMNOPQRSTUVWXYZ456789stuvwxyz0!#$%&ijkrgh'*+-/=?^_${'`'}{|}~`;
 
 const generateToken = (key) => {
     let token = '';
-    for(let i=0; i< key.length; i++) {
+    for(let i = 0; i < key.length; i++){
         let index = char.indexOf(key[i]) || char.length / 2;
         let randomIndex = Math.floor(Math.random() * index);
         token += char[randomIndex] + char[index - randomIndex];
     }
-
     return token;
 }
 
 const compareToken = (token, key) => {
     let string = '';
-    for(let i = 0; i < token.length; i=i+2) {
+    for(let i = 0; i < token.length; i=i+2){
         let index1 = char.indexOf(token[i]);
         let index2 = char.indexOf(token[i+1]);
         string += char[index1 + index2];
@@ -24,9 +23,9 @@ const compareToken = (token, key) => {
     return false;
 }
 
-//common functions
+//  common functions
 
-//send data function
+// send data function
 const sendData = (path, data) => {
     fetch(path, {
         method: 'post',
@@ -41,28 +40,43 @@ const sendData = (path, data) => {
 const processData = (data) => {
     loader.style.display = null;
     if(data.alert){
-        showAlert(data.alert);
+        if(data.type){
+            showAlert(data.alert, 'success');
+        } else{
+            showAlert(data.alert);
+        }
     } else if(data.name){
-        //create authToken
+        // create authToken
         data.authToken = generateToken(data.email);
         sessionStorage.user = JSON.stringify(data);
         location.replace('/');
     } else if(data == true){
-        //seller page
+        // seller page
         let user = JSON.parse(sessionStorage.user);
         user.seller = true;
         sessionStorage.user = JSON.stringify(user);
-        location.repload();
+        location.reload();
     } else if(data.product){
         location.href = '/seller';
     }
 }
 
-//alert function
-const showAlert = (msg) => {
+// alert function
+const showAlert = (msg, type='error') => {
     let alertBox = document.querySelector('.alert-box');
     let alertMsg = document.querySelector('.alert-msg');
+    let alertImg = document.querySelector('.alert-img');
+
     alertMsg.innerHTML = msg;
+
+    if(type == 'success'){
+        alertImg.src = `img/success.png`;
+        alertMsg.style.color = `#0ab50a`;
+    } else{ // means it is an err
+        alertImg.src = `img/error.png`;
+        alertMsg.style.color = null;
+    }
+
     alertBox.classList.add('show');
     setTimeout(() => {
         alertBox.classList.remove('show');

@@ -1,26 +1,27 @@
 let user = JSON.parse(sessionStorage.user || null);
 let loader = document.querySelector('.loader');
 
+// checknig user is logged in or not
 window.onload = () => {
-    if (user){
+    if(user){
         if(!compareToken(user.authToken, user.email)){
             location.replace('/login');
         }
-    }
-    else{
+    } else{
         location.replace('/login');
     }
 }
+
+// price inputs
 
 const actualPrice = document.querySelector('#actual-price');
 const discountPercentage = document.querySelector('#discount');
 const sellingPrice = document.querySelector('#sell-price');
 
 discountPercentage.addEventListener('input', () => {
-    if (discountPercentage.value > 100){
+    if(discountPercentage.value > 100){
         discountPercentage.value = 90;
-    }
-    else{
+    } else{
         let discount = actualPrice.value * discountPercentage.value / 100;
         sellingPrice.value = actualPrice.value - discount;
     }
@@ -31,8 +32,9 @@ sellingPrice.addEventListener('input', () => {
     discountPercentage.value = discount;
 })
 
+// upload image handle
 let uploadImages = document.querySelectorAll('.fileupload');
-let imagePaths = [];
+let imagePaths = []; // will store all uploaded images paths;
 
 uploadImages.forEach((fileupload, index) => {
     fileupload.addEventListener('change', () => {
@@ -40,12 +42,13 @@ uploadImages.forEach((fileupload, index) => {
         let imageUrl;
 
         if(file.type.includes('image')){
+            // means user uploaded an image
             fetch('/s3url').then(res => res.json())
             .then(url => {
                 fetch(url,{
                     method: 'PUT',
                     headers: new Headers({'Content-Type': 'multipart/form-data'}),
-                    body: file 
+                    body: file
                 }).then(res => {
                     imageUrl = url.split("?")[0];
                     imagePaths[index] = imageUrl;
@@ -61,19 +64,23 @@ uploadImages.forEach((fileupload, index) => {
     })
 })
 
+// form submission
+
 const productName = document.querySelector('#product-name');
 const shortLine = document.querySelector('#short-des');
 const des = document.querySelector('#des');
 
-let sizes = [];
+let sizes = []; // will store all the sizes
 
 const stock = document.querySelector('#stock');
 const tags = document.querySelector('#tags');
 const tac = document.querySelector('#tac');
 
+// buttons
 const addProductBtn = document.querySelector('#add-btn');
 const saveDraft = document.querySelector('#save-btn');
 
+// store size function
 const storeSizes = () => {
     sizes = [];
     let sizeCheckBox = document.querySelectorAll('.size-checkbox');
@@ -87,27 +94,29 @@ const storeSizes = () => {
 const validateForm = () => {
     if(!productName.value.length){
         return showAlert('enter product name');
-    }else if (shortLine.value.length >100 || shortLine.value.length < 10 ){
+    } else if(shortLine.value.length > 100 || shortLine.value.length < 10){
         return showAlert('short description must be between 10 to 100 letters long');
-    }else if (!des.value.length){
+    } else if(!des.value.length){
         return showAlert('enter detail description about the product');
-    }else if (!imagePaths.length){
-        return showAlert('upload atleast one product image');
-    }else if (!sizes.length){
+    } else if(!imagePaths.length){ // image link array
+        return showAlert('upload atleast one product image')
+    } else if(!sizes.length){ // size array
         return showAlert('select at least one size');
-    }else if (!actualPrice.value.length || !discount.value.length || !sellingPrice.value.length){
+    } else if(!actualPrice.value.length || !discount.value.length || !sellingPrice.value.length){
         return showAlert('you must add pricings');
-    }else if(stock.value<20){
+    } else if(stock.value < 20){
         return showAlert('you should have at least 20 items in stock');
-    }else if(!tags.value.length){
+    } else if(!tags.value.length){
         return showAlert('enter few tags to help ranking your product in search');
-    }else if(!tac.checked){
+    } else if(!tac.checked){
         return showAlert('you must agree to our terms and conditions');
-    }
+    } 
     return true;
 }
 
 const productData = () => {
+    let tagArr = tags.value.split(',');
+    tagArr.forEach((item, i) => tagArr[i] = tagArr[i].trim());
     return data = {
         name: productName.value,
         shortDes: shortLine.value,
@@ -118,7 +127,7 @@ const productData = () => {
         discount: discountPercentage.value,
         sellPrice: sellingPrice.value,
         stock: stock.value,
-        tags: tags.value,
+        tags: tagArr,
         tac: tac.checked,
         email: user.email
     }
@@ -126,8 +135,8 @@ const productData = () => {
 
 addProductBtn.addEventListener('click', () => {
     storeSizes();
-    
-    if(validateForm()){
+    // validate form
+    if(validateForm()){ // validateForm return true or false while doing validation
         loader.style.display = 'block';
         let data = productData();
         if(productId){
@@ -137,12 +146,14 @@ addProductBtn.addEventListener('click', () => {
     }
 })
 
+// save draft btn
 saveDraft.addEventListener('click', () => {
+    // store sizes
     storeSizes();
-
+    // check for product name
     if(!productName.value.length){
         showAlert('enter product name');
-    } else{
+    } else{ // don't validate the data
         let data = productData();
         data.draft = true;
         if(productId){
@@ -152,16 +163,19 @@ saveDraft.addEventListener('click', () => {
     }
 })
 
+// exisiting product detail handle
+
 const setFormsData = (data) => {
     productName.value = data.name;
     shortLine.value = data.shortDes;
     des.value = data.des;
-    actualPrice.value= data.actualPrice;
+    actualPrice.value = data.actualPrice;
     discountPercentage.value = data.discount;
     sellingPrice.value = data.sellPrice;
     stock.value = data.stock;
     tags.value = data.tags;
 
+    // set up images
     imagePaths = data.images;
     imagePaths.forEach((url, i) => {
         let label = document.querySelector(`label[for=${uploadImages[i].id}]`);
@@ -170,10 +184,11 @@ const setFormsData = (data) => {
         productImage.style.backgroundImage = `url(${url})`;
     })
 
+    // setup sizes
     sizes = data.sizes;
 
-    let sizeCheckBox = document.querySelectorAll('.size-checkbox');
-    sizeCheckBox.forEach(item => {
+    let sizeCheckbox = document.querySelectorAll('.size-checkbox');
+    sizeCheckbox.forEach(item => {
         if(sizes.includes(item.value)){
             item.setAttribute('checked', '');
         }
@@ -181,18 +196,17 @@ const setFormsData = (data) => {
 }
 
 const fetchProductData = () => {
-    delete sessionStorage.tempProduct;
     fetch('/get-products', {
         method: 'post',
         headers: new Headers({'Content-Type': 'application/json'}),
         body: JSON.stringify({email: user.email, id: productId})
     })
     .then((res) => res.json())
-    then(data => {
+    .then(data => {
         setFormsData(data);
     })
     .catch(err => {
-        location.replace('/seller');
+        console.log(err);
     })
 }
 
@@ -200,10 +214,5 @@ let productId = null;
 if(location.pathname != '/add-product'){
     productId = decodeURI(location.pathname.split('/').pop());
 
-    let productDetail = JSON.parse(sessionStorage.tempProduct || null);
-
-    // if (productDetail == null){
-        fetchProductData();
-    // }
+    fetchProductData();
 }
-

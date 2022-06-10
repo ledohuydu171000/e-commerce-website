@@ -1,58 +1,58 @@
 const createNav = () => {
     let nav = document.querySelector('.navbar');
 
-    nav.innerHTML =`
+    nav.innerHTML = `
         <div class="nav">
-            <img src="/img/homeicon.png" class="brand-logo" alt="" />
+            <img src="../img/dark-logo.png" class="brand-logo" alt="">
             <div class="nav-items">
                 <div class="search">
-                    <input type="text" class="search-box" placeholder="Search...">
-                    <button class="search-button">search</button>
+                    <input type="text" class="search-box" placeholder="search brand, product">
+                    <button class="search-btn">search</button>
                 </div>
                 <a>
-                    <img src="img/iconusers.png" id="user-img" alt="">
+                    <img src="../img/user.png" id="user-img" alt="">
                     <div class="login-logout-popup hide">
                         <p class="account-info">Log in as, name</p>
-                        <button class="button" id="user-button">Log out</button>
+                        <button class="btn" id="user-btn">Log out</button>
                     </div>
                 </a>
-                <a href="#"><img src="img/cart.png" alt=""></a>
+                <a href="/cart"><img src="../img/cart.png" alt=""></a>
             </div>
         </div>
         <ul class="links-container">
-            <li class="link-item"><a href="#" class="link">Home</a></li>
-            <li class="link-item"><a href="#" class="link">Mens</a></li>
-            <li class="link-item"><a href="#" class="link">Womens</a></li>
-            <li class="link-item"><a href="#" class="link">Kids</a></li>
-            <li class="link-item"><a href="#" class="link">Accessories</a></li>
+            <li class="link-item"><a href="#" class="link">home</a></li>
+            <li class="link-item"><a href="#" class="link">women</a></li>
+            <li class="link-item"><a href="#" class="link">men</a></li>
+            <li class="link-item"><a href="#" class="link">kids</a></li>
+            <li class="link-item"><a href="#" class="link">accessories</a></li>
         </ul>
     `;
 }
 
 createNav();
 
-//nav popup
+// nav popup
 const userImageButton = document.querySelector('#user-img');
-const userPop = document.querySelector('.login-logout-popup');
+const userPopup = document.querySelector('.login-logout-popup');
 const popuptext = document.querySelector('.account-info');
-const actionBtn = document.querySelector('#user-button');
+const actionBtn = document.querySelector('#user-btn');
 
 userImageButton.addEventListener('click', () => {
-    userPop.classList.toggle('hide');
+    userPopup.classList.toggle('hide');
 })
 
 window.onload = () => {
     let user = JSON.parse(sessionStorage.user || null);
     if(user != null){
-        //mean user is logged in
+        // means user is logged in
         popuptext.innerHTML = `log in as, ${user.name}`;
         actionBtn.innerHTML = 'log out';
-        actionBtn.addEventListener('click', () =>{
+        actionBtn.addEventListener('click', () => {
             sessionStorage.clear();
             location.reload();
         })
-    } else {
-        //user is logged out
+    } else{
+        // user is logged out
         popuptext.innerHTML = 'log in to place order';
         actionBtn.innerHTML = 'log in';
         actionBtn.addEventListener('click', () => {
@@ -60,3 +60,13 @@ window.onload = () => {
         })
     }
 }
+
+// search box
+
+const searchBtn = document.querySelector('.search-btn');
+const searchBox = document.querySelector('.search-box');
+searchBtn.addEventListener('click', () => {
+    if(searchBox.value.length){
+        location.href = `/search/${searchBox.value}`
+    }
+})
