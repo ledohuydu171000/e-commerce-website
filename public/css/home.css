@@ -20,11 +20,13 @@
 .hero-section .sub-heading{
     margin-top: 10px;
     text-align: center;
-    color: black;
+    color: #fff;
     text-transform: capitalize;
     font-size: 35px;
     font-weight: 300;
 }
+
+/* product */
 
 .product{
     position: relative;
@@ -33,7 +35,7 @@
 }
 
 .product-category{
-    padding: 0 10px;
+    padding: 0 10vw;
     font-size: 30px;
     font-weight: 500;
     margin-bottom: 40px;
@@ -47,21 +49,21 @@
     scroll-behavior: smooth;
 }
 
-.product-container::-webkit-scrollbar-thumb{
+.product-container::-webkit-scrollbar{
     display: none;
 }
 
 .product-card{
     flex: 0 0 auto;
-    width: 320px;
+    width: 250px;
     height: 450px;
     margin-right: 40px;
 }
 
 .product-image{
     position: relative;
-    height: 350px;
     width: 100%;
+    height: 350px;
     overflow: hidden;
 }
 
@@ -73,7 +75,7 @@
 
 .discount-tag{
     position: absolute;
-    background: black;
+    background: #fff;
     padding: 5px;
     border-radius: 5px;
     color: #ff7d7d;
@@ -82,7 +84,7 @@
     text-transform: capitalize;
 }
 
-.card-button{
+.card-btn{
     position: absolute;
     bottom: 10px;
     left: 50%;
@@ -99,12 +101,12 @@
     opacity: 0;
 }
 
-.product-card:hover .card-button{
+.product-card:hover .card-btn{
     opacity: 1;
 }
 
-.card-button:hover{
-    background: #fefefe;
+.card-btn:hover{
+    background: #efefef;
 }
 
 .product-info{
@@ -122,7 +124,7 @@
     height: 20px;
     line-height: 20px;
     overflow: hidden;
-    opacity: 0,5;
+    opacity: 0.5;
     text-transform: capitalize;
     margin: 5px 0;
 }
@@ -134,8 +136,8 @@
 
 .actual-price{
     margin-left: 20px;
-    opacity: 0,5;
-    text-decoration: line-through; 
+    opacity: 0.5;
+    text-decoration: line-through;
 }
 
 .pre-button, .nxt-button{
@@ -149,7 +151,7 @@
     align-items: center;
     background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, #fff 100%);
     cursor: pointer;
-    z-index: 80;
+    z-index: 8;
 }
 
 .pre-button{
@@ -169,7 +171,7 @@
     opacity: 1;
 }
 
-/*collection */
+/* collections */
 
 .collection-container{
     width: 100%;
@@ -192,7 +194,7 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translateX(-50%, -50%);
+    transform: translate(-50%, -50%);
     text-align: center;
     color: #fff;
     font-size: 50px;

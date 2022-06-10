@@ -51,7 +51,7 @@ textarea{
 }
 
 .upload-image-sec, .select-sizes{
-    background-color: #fff;
+    background: #fff;
     border-radius: 10px;
     padding: 20px;
 }
@@ -82,6 +82,7 @@ textarea{
     background-size: cover;
 }
 
+
 .sizes{
     margin-top: 30px;
 }
@@ -106,7 +107,7 @@ textarea{
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 16px;
-    text-transform: uppercase;    
+    text-transform: uppercase;
 }
 
 .size-checkbox:checked{
@@ -114,7 +115,8 @@ textarea{
     color: #fff;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button{
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button{
     -webkit-appearance: none;
     margin: 0;
 }

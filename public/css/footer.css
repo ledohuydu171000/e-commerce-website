@@ -41,7 +41,7 @@ footer{
 .category .footer-link{
     text-decoration: none;
     text-transform: capitalize;
-    color: rgba(250, 250, 250, 0.75);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .footer-link:hover{
@@ -49,7 +49,7 @@ footer{
 }
 
 .footer-title, .info{
-    color:rgba(250, 250, 250, 0.75);
+    color: rgba(255, 255, 255, 0.75);
     margin: 20px 0;
     text-transform: capitalize;
 }

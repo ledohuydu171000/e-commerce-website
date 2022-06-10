@@ -4,18 +4,18 @@ body{
     min-height: 90vh;
     padding: 0 5vw;
     position: relative;
-    font-family: roboto, sans-serif;
+    font-family: roboto, sans-serif;   
 }
 
 .logo{
-    margin: 20px auto 50px; 
+    margin: 20px auto 50px;
 }
 
 .hide{
     display: none;
 }
 
-/* become seller element*/
+/* become seller element */
 .become-seller{
     border-radius: 10px;
     background: #fff;
@@ -34,7 +34,7 @@ body{
     line-height: 25px;
 }
 
-.button{
+.btn{
     border: none;
     outline: none;
     background: #383838;
@@ -44,9 +44,9 @@ body{
     text-transform: capitalize;
     font-size: 14px;
     cursor: pointer;
-} 
+}
 
-/* apply form*/
+/* apply form */
 .apply-form input, textarea{
     font-weight: 500;
 }
@@ -62,13 +62,13 @@ body{
     padding: 10px 20px;
 }
 
-.submit-button{
+.submit-btn{
     margin: 10px 0;
     width: auto;
     padding: 0 40px;
 }
 
-/*product listening*/
+/* product listing */
 .add-product{
     width: 100%;
     display: flex;
@@ -117,8 +117,8 @@ body{
     position: absolute;
     top: 10px;
     right: 10px;
-    height: 40px;
     width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: none;
     outline: none;
@@ -127,6 +127,7 @@ body{
     overflow: hidden;
     cursor: pointer;
     opacity: 0;
+    pointer-events: none;
 }
 
 .card-action-btn img{

@@ -21,7 +21,7 @@
 }
 
 .brand-logo{
-    height: 60px
+    height: 60px;
 }
 
 .nav-items{
@@ -39,15 +39,15 @@
     height: 40px;
     padding: 10px;
     border-top-left-radius: 10px;
-    border-bottom-left-radius:10px;
+    border-bottom-left-radius: 10px;
     border: 1px solid #d1d1d1;
-    text-transform:capitalize;
+    text-transform: capitalize;
     background: none;
     color: #a9a9a9;
     outline: none;
 }
 
-.search-button{
+.search-btn{
     width: 20%;
     height: 40px;
     padding: 10px 20px;
@@ -129,7 +129,7 @@
     text-transform: capitalize;
 }
 
-#user-button{
+#user-btn{
     padding: 10px;
     background: #383838;
     color: #fff;
